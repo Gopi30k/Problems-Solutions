@@ -1,3 +1,5 @@
+/*COMPLETED ON 08/02/2018*/
+
 create database StudentRanking;
 use StudentRanking;
 create Table Student(sno integer(4) primary key,
