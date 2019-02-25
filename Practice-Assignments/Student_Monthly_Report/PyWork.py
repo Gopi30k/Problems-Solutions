@@ -1,9 +1,8 @@
 import mysql.connector
-
 def query_mysql(query):
 	cnx = mysql.connector.connect(user='root', password='root',
 								  host='localhost',database='Student_monthly_report')
-	cursor = cnx.cursor()
+	print type(cnx)
 	cursor.execute(query)
 	#get header and rows
 	header = [i[0] for i in cursor.description]

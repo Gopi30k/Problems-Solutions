@@ -62,3 +62,12 @@ from Student s join Marks m on m.sId=s.sId where examDate like '%-01-%';
 select monthname(examdate) from marks group by month(examdate );
  
 
+ select s.sId as Id,s.sName as Name,s.sClassNo as Class,
+    -> DATE_FORMAT(m.examDate,'%m-%d-%Y') as ExamDate,
+    -> m.English,m.Tamil,m.Maths,m.Science,m.Social,
+    -> (m.English+m.Tamil+m.Maths+m.Science+m.Social) as Total,
+    -> dense_rank() over (order by (m.English+m.Tamil+m.Maths+m.Science+m.Social) desc) as Ranking
+    -> from Student s join Marks m on m.sId=s.sId where examDate like '%-01-%';
+	
+	
+	

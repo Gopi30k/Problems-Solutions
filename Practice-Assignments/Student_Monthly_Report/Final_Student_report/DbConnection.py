@@ -1,5 +1,7 @@
+import logging
 import mysql.connector as m
-fd=open('Student_montly_report.sql','r')
-sqlFile = fd.read()
-sqlCommands = sqlFile.split(';')
-print sqlCommands
+db = m.connect(host="localhost", user="root", password="root", db="Student_monthly_report")
+crsr=db.cursor()
+
+
+
