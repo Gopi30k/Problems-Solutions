@@ -516,3 +516,142 @@ mysql> select count(distinct(Hotel_No)) from Room;
 |                         6 |
 +---------------------------+
 1 row in set (0.10 sec)
+
+
+
+
+
+/////////////////////////////////////////////////////////////       COMPLETED DATE - 22-02-2019          //////////////////////////////////////////////////////
+
+
+/*6)List the cities in which guests live. Each city should be listed only once*/
+
+
+mysql>  select g.city from booking b join guest g on b.guest_no=g.guest_no group by g.city;
++--------------+
+| city         |
++--------------+
+| Pittsburgh   |
+| Baltimore    |
+| Philadelphia |
+| Atlanta      |
++--------------+
+4 rows in set (0.00 sec)
+
+mysql> select distinct(g.city) from guest g ;
++--------------+
+| city         |
++--------------+
+| Baltimore    |
+| Philadelphia |
+| Pittsburgh   |
+| Atlanta      |
++--------------+
+4 rows in set (0.02 sec)
+
+/*7.)List the average price of a room.*/
+
+ select avg(r.Price),b.Room_No from booking b join room r on r.Hotel_No=b.Hotel_No group by b.Room_no;
++--------------+---------+
+| avg(r.Price) | Room_No |
++--------------+---------+
+|   147.500000 |     223 |
+|   145.000000 |     412 |
+|   170.000000 |     467 |
+|   170.000000 |     345 |
+|   162.500000 |    1001 |
+|   162.500000 |    1201 |
+|   185.000000 |    1267 |
++--------------+---------+
+
+
+/*8.)List hotel names, their room numbers, and the type of that room.*/
+
+
+ select h.name,r.room_no,r.rtype from hotel h join room r on h.hotel_no=r.hotel_no;
++------------------+---------+-------+
+| name             | room_no | rtype |
++------------------+---------+-------+
+| Clairmont Hotel  |     223 | N     |
+| Clairmont Hotel  |     257 | N     |
+| Empire Hotel     |     313 | S     |
+| James Plaza      |     345 | N     |
+| Empire Hotel     |     412 | N     |
+| James Plaza      |     467 | N     |
+| Brownstone Hotel |     876 | S     |
+| Brownstone Hotel |     898 | S     |
+| Devon Hotel      |    1001 | S     |
+| Devon Hotel      |    1201 | N     |
+| Park Place       |    1267 | N     |
+| Park Place       |    1289 | N     |
++------------------+---------+-------+
+
+/*9)List the hotel names, booking dates, and room numbers for all hotels in New York.*/
+
+select h.name,b.date_from,b.date_to,b.room_no from booking b join hotel h on h.hotel_no=b.hotel_no where h.city='New York';
++--------------+------------+------------+---------+
+| name         | date_from  | date_to    | room_no |
++--------------+------------+------------+---------+
+| Empire Hotel | 1999-08-10 | 1999-08-15 |     412 |
+| Empire Hotel | 1999-08-18 | 1999-08-21 |     412 |
+| Park Place   | 1999-09-05 | 1999-09-12 |    1267 |
++--------------+------------+------------+---------+
+
+/*10)What is the number of bookings that started in the month of September? */
+
+select b.guest_no from booking b where b.date_from like '%-09-%';
++----------+
+| guest_no |
++----------+
+| G879     |
+| G230     |
+| G367     |
+| G879     |
++----------+
+
+select count(b.guest_no) from booking b where b.date_from like '%-09-%';
++-------------------+
+| count(b.guest_no) |
++-------------------+
+|                 4 |
++-------------------+
+
+
+/*11)List the names and cities of guests who began a stay in New York in August.*/
+
+ select g.name,g.city from guest g join booking b on g.guest_no=b.guest_no join hotel h on h.hotel_no=b.hotel_no where b.date_from like '%-08-%' and h.city='New York';
++---------------+------------+
+| name          | city       |
++---------------+------------+
+| Adam Wayne    | Pittsburgh |
+| Tara Cummings | Baltimore  |
++---------------+------------+
+
+/*12)List the hotel names and room numbers of any hotel rooms that have not been booked.*/
+
+select h.name,r.room_no from hotel h join room r on r.hotel_no=h.hotel_no where r.room_no not in (select b.room_no from booking b);
++------------------+---------+
+| name             | room_no |
++------------------+---------+
+| Clairmont Hotel  |     257 |
+| Empire Hotel     |     313 |
+| Brownstone Hotel |     876 |
+| Brownstone Hotel |     898 |
+| Park Place       |    1289 |
++------------------+---------+
+
+/*13)List the hotel name and city of the hotel with the highest priced room.*/
+select h.name,h.city,r.price from hotel h join room r where r.price=(select max(price ) from room);
++------------------+----------+--------+
+| name             | city     | price  |
++------------------+----------+--------+
+| Empire Hotel     | New York | 195.00 |
+| Devon Hotel      | Boston   | 195.00 |
+| Park Place       | New York | 195.00 |
+| Brownstone Hotel | Toronto  | 195.00 |
+| Clairmont Hotel  | Boston   | 195.00 |
+| James Plaza      | Toronto  | 195.00 |
++------------------+----------+--------+
+
+/*14)List hotel names, room numbers, cities, and prices for hotels that have rooms with prices lower than the lowest priced room in a Boston hotel.*/
+
