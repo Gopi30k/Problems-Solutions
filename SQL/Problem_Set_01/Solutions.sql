@@ -655,3 +655,27 @@ select h.name,h.city,r.price from hotel h join room r where r.price=(select max(
 
 /*14)List hotel names, room numbers, cities, and prices for hotels that have rooms with prices lower than the lowest priced room in a Boston hotel.*/
 
+/*15.)List the average price of a room grouped by city.*/
+
+
+
+select room_no,avg(price) from room r join hotel h on h.hotel_no=r.hotel_no group by h.city;
++---------+------------+
+| room_no | avg(price) |
++---------+------------+
+|     223 | 155.000000 |
+|     313 | 165.000000 |
+|     345 | 147.000000 |
++---------+------------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
+
+
