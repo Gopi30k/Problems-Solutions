@@ -61,6 +61,8 @@ select name,e_id from employee where e_id in (select managerid from employee);
 
 select e.name,e.e_id from employee e where e.e_id in (select distinct(managerid) from employee);
 
+select distinct e.name,e.e_id from employee e join employee m where e.e_id=m.managerid;
+
 --5)Select the Empolyee who is a Manager and has least salary--
 
 select name,salary from employee e join dept d on e.name=d.depmanager order by salary limit 1;
